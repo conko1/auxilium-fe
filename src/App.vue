@@ -1,30 +1,53 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <Header/>
+  <router-view />
+  <Footer/>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script setup lang="ts">
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
+import {onMounted} from "vue";
+import {useContentsStore} from "@/store/contents-store";
+import {refresh} from "@/services/auth-service";
+import {storeToRefs} from "pinia";
+import {useFilesStore} from "@/store/file-store";
+import {useContactUsStore} from "@/store/contact-us-store";
+import {useGalleryStore} from "@/store/gallery-store";
 
-nav {
-  padding: 30px;
+const contentStore = useContentsStore();
+const fileStore = useFilesStore();
+const contactUsStore = useContactUsStore();
+const galleryStore = useGalleryStore();
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+onMounted(async () => {
+  try {
+    await refresh();
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+    contactUsStore.fetchAll();
+
+    const store = useContentsStore();
+    const { logged } = storeToRefs(store)
+    logged.value = true;
+  } finally {
+    contentStore.fetchAll();
+    fileStore.fetchAll();
+    galleryStore.fetchAll();
   }
+});
+</script>
+
+<style>
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+</style>
+
+<style scoped lang="scss">
+.flex-1-1-auto {
+  flex: 1 1 auto;
+  flex-wrap: wrap;
 }
 </style>

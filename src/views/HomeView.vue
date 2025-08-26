@@ -1,18 +1,21 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <carousel/>
+  <content-block v-for="(content, index) in contents" :key="index" :content="content" :odd="index % 2 !== 0"/>
+  <fixed-content/>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+<script setup lang="ts">
+import {useContentsStore} from "@/store/contents-store";
+import {storeToRefs} from "pinia";
+import ContentBlock from "@/components/ContentBlock.vue";
+import {onMounted} from "vue";
+import FixedContent from "@/components/FixedContent.vue";
+import Carousel from "@/components/Carousel.vue";
 
-export default defineComponent({
-  name: 'HomeView',
-  components: {
-    HelloWorld,
-  },
-});
+const store = useContentsStore();
+const { contents } = storeToRefs(store);
+
+onMounted(() => {
+  store.fetchAll();
+})
 </script>
