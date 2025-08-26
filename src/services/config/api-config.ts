@@ -2,9 +2,7 @@ import axios from "axios";
 import axi from "@/services/config/axi-config";
 import {refresh} from "@/services/auth-service";
 
-// const baseURL = process.env.NODE_ENV !== "production" ?  "http://localhost:8000/api" : "https://api.bankari.sk/api";
-
-const baseURL = "http://localhost:8000/";
+const baseURL = process.env.NODE_ENV !== "production" ?  "http://localhost:8000/" : "https://api.auxiliumno.sk/";
 
 const api = axios.create({
   baseURL,
