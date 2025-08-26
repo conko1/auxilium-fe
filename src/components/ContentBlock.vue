@@ -1,5 +1,5 @@
 <template>
-  <div :id="contentData.href" class="py-3 pt-lg-6" data-bg-img="http://auxiliumno.sk/assets/img/backgrounds/bg-flickr_4182166296.jpg" :class="{'bg-light': odd}">
+  <div :id="contentData.href" class="py-3 pt-lg-6" :class="{'bg-light': odd}">
     <div class="container">
       <div class="d-flex">
         <div data-animate="fadeIn" data-animate-duration="0.8" class="w-100">

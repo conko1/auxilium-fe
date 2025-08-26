@@ -21,7 +21,7 @@
           <ul class="fa-ul list-unstyled">
             <li v-for="(file, index) in files" :key="index">
               <i class="bi bi-file-earmark me-2"></i>
-              <a href="http://auxiliumno.sk/dokumenty/ziadost_o_poskytovanie_soc_sluzby.docx">{{ file.file_name }}</a>
+              <a :href="getFileUrl(file.file)" target="_blank" :download="file.file_name">{{ file.file_name }}</a>
             </li>
           </ul>
         </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="bg-op-1 bg-lime bg-shadow py-3 mt-4 text-center font-weight-bold" data-animate="fadeInUp" data-animate-duration="1.2" data-animate-offset="100%">
           <p class="d-inline-block py-1">
-            <i class="fa fa-file-word-o"></i> &nbsp; <a href="http://auxiliumno.sk/dokumenty/cennik_uhrad_2023.pdf">Cenník služieb poskytovaných v zariadení pre seniorov Auxilium, n.o.</a>
+            <i class="fa fa-file-word-o"></i>Cenník služieb poskytovaných v zariadení pre seniorov Auxilium, n.o.
           </p>
           <p class="d-inline-block py-1">
             Bližšie informácie o výške úhrady za poskytovanú sociálnu službu v našom zariadení vám budú poskytnuté<br>telefonicky: 0915 729 127 alebo e-mailom: <a href="mailto:dss.socauxilium@gmail.com">dss.socauxilium@gmail.com</a>
@@ -144,10 +144,15 @@ import ContactForm from "@/components/ContactForm.vue";
 import {useFilesStore} from "@/store/file-store";
 import {storeToRefs} from "pinia";
 import GallerySection from "@/components/GallerySection.vue";
+import api from "@/services/config/api-config";
 
 const filesStore = useFilesStore();
 const { files } = storeToRefs(filesStore);
 
+function getFileUrl(path: string) {
+  const baseUrl = api.defaults.baseURL;
+  return new URL(path, baseUrl).toString();
+}
 </script>
 
 <style scoped>
