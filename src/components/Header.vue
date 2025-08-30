@@ -81,7 +81,7 @@
                     Všeobecné
                   </a>
 
-                  <ul class="dropdown-menu" :aria-labelledby="`dd-vseobecne`">
+                  <ul class="dropdown-menu pos-absolute" :aria-labelledby="`dd-vseobecne`">
                     <li>
                       <button class="dropdown-item" type="button" @click="scrollTo('gallery-section')">
                         Galéria
