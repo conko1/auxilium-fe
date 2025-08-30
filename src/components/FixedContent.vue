@@ -21,7 +21,7 @@
           <ul class="fa-ul list-unstyled">
             <li v-for="(file, index) in files" :key="index">
               <i class="bi bi-file-earmark me-2"></i>
-              <a :href="getFileUrl(file.file)" target="_blank" :download="file.file_name">{{ file.file_name }}</a>
+              <a :href="downloadFile(file)" target="_blank" :download="file.file_name">{{ file.file_name }}</a>
             </li>
           </ul>
         </div>
@@ -145,13 +145,34 @@ import {useFilesStore} from "@/store/file-store";
 import {storeToRefs} from "pinia";
 import GallerySection from "@/components/GallerySection.vue";
 import api from "@/services/config/api-config";
+import {UploadedFile} from "@/types/file-types";
 
 const filesStore = useFilesStore();
 const { files } = storeToRefs(filesStore);
 
-function getFileUrl(path: string) {
+async function downloadFile(file: UploadedFile) {
   const baseUrl = api.defaults.baseURL;
-  return new URL(path, baseUrl).toString();
+  const url = new URL(file.file, baseUrl);
+  const res = await fetch(url.toString(), {
+    method: "GET",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Download failed: ${res.status} ${res.statusText}`);
+  }
+
+  const blob = await res.blob();
+
+  const objectUrl = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = objectUrl;
+  a.download = file.file_name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(objectUrl);
 }
 </script>
 

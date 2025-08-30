@@ -53,7 +53,7 @@
                     {{ category.name }}
                   </a>
 
-                  <ul class="dropdown-menu" :aria-labelledby="`dd-${category.id}`">
+                  <ul class="dropdown-menu pos-absolute" :aria-labelledby="`dd-${category.id}`">
                     <li v-for="content in categoryContents(category.id)" :key="content.id || content.href">
                       <button class="dropdown-item" type="button" @click="scrollTo(content.href)">
                         {{ content.link }}
