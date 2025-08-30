@@ -121,7 +121,11 @@ function splitData(data: string) {
 }
 
 function setSingleMode(withMarker: boolean) {
-  contentBodyLeft.value = joinColumns(contentBodyLeft.value, contentBodyRight.value, withMarker);
+  if (withMarker && contentBodyRight.value) {
+    contentBodyLeft.value = joinColumns(contentBodyLeft.value, contentBodyRight.value, withMarker);
+  } else {
+    contentBodyLeft.value = joinColumns(contentBodyLeft.value, contentBodyRight.value, false);
+  }
   dualMode.value = false;
 }
 
@@ -150,8 +154,6 @@ function joinColumns(left: string, right: string, withMarker: boolean, marker: s
 
   let L = safe(left);
   let R = safe(right);
-
-  console.log(L, R);
 
   if (!withMarker) {
     const leftTrim = L.replace(/\s+$/, '');
