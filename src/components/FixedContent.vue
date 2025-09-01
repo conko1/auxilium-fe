@@ -21,7 +21,7 @@
           <ul class="fa-ul list-unstyled">
             <li v-for="(file, index) in files" :key="index">
               <i class="bi bi-file-earmark me-2"></i>
-              <a :href="downloadFile(file)" target="_blank" :download="file.file_name">{{ file.file_name }}</a>
+              <span class="text-primary bold cursor-pointer" @click="downloadFile(file)">{{ file.file_name }}</span>
             </li>
           </ul>
         </div>
