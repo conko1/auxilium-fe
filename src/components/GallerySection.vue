@@ -1,6 +1,6 @@
 <template>
   <div class="bg-light" id="gallery-section">
-    <div class="container p-4 py-lg-5 ">
+    <div class="container p-4 py-lg-5">
       <div data-animate="fadeIn" data-animate-duration="0.2">
         <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary" />
         <h2 class="text-center text-uppercase font-weight-bold my-0">
@@ -9,7 +9,7 @@
         <hr class="mb-3 w-50 mx-auto" />
       </div>
 
-
+      <!-- Bootstrap carousel -->
       <div
         id="galleryCarousel"
         class="carousel slide carousel-fade"
@@ -45,6 +45,7 @@
               :src="slide.src"
               loading="lazy"
               :style="{ objectFit }"
+              @click="openFullscreen(index)"
             />
 
             <div class="position-absolute top-0 start-0 w-100 h-100 overlay-dark"></div>
@@ -63,39 +64,56 @@
       </div>
     </div>
   </div>
+
+  <!-- Fullscreen carousel overlay -->
+  <FullScreenCarousel
+    v-if="showFullscreen"
+    :urls="slides.map(s => s.src)"
+    :startIndex="fullscreenIndex"
+    @click.self="closeFullscreen"
+    @close="showFullscreen = false"
+  />
 </template>
 
 <script setup>
-import {computed, ref} from "vue";
-import {useGalleryStore} from "@/store/gallery-store";
-import {storeToRefs} from "pinia";
+import { computed, ref } from "vue";
+import { useGalleryStore } from "@/store/gallery-store";
+import { storeToRefs } from "pinia";
 import api from "@/services/config/api-config";
+import FullScreenCarousel from "@/components/FullScreenCarousel.vue";
 
 const props = defineProps({
   height: { type: String, default: "50vh" },
   objectFit: { type: String, default: "cover" }
 });
 
-const height = props.height;
-const objectFit = props.objectFit;
+const { height, objectFit } = props;
 
 const store = useGalleryStore();
 const { files } = storeToRefs(store);
 
-
 const slides = computed(() => {
   const baseUrl = api.defaults.baseURL;
-
-  return files.value.map((f) => {
-    return {
-      src: `${new URL(f.file, baseUrl)}`,
-    }
-  })
+  return files.value.map((f) => ({
+    src: `${new URL(f.file, baseUrl)}`
+  }));
 });
+
+// Fullscreen state
+const showFullscreen = ref(false);
+const fullscreenIndex = ref(0);
+
+function openFullscreen(index) {
+  fullscreenIndex.value = index;
+  showFullscreen.value = true;
+}
+
+function closeFullscreen() {
+  showFullscreen.value = false;
+}
 </script>
 
 <style scoped>
-/* Overlays for the dark/gradient feel */
 .overlay-dark {
   background: rgba(0, 0, 0, 0.4);
   pointer-events: none;
@@ -110,13 +128,6 @@ const slides = computed(() => {
     rgba(0, 0, 0, 0.55) 100%
   );
 }
-
-/* Keep caption near the bottom like your original */
-.caption-bottom {
-  bottom: 2rem;
-}
-
-/* Indicators readable on dark bg */
 .carousel-indicators [data-bs-target] {
   background-color: #fff;
   opacity: 0.6;
