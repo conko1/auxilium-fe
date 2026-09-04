@@ -21,7 +21,13 @@
           <ul class="fa-ul list-unstyled">
             <li v-for="(file, index) in files" :key="index">
               <i class="bi bi-file-earmark me-2"></i>
-              <button class="text-primary bold cursor-pointer bg-transparent border-0" @click="downloadFile(file)">{{ file.file_name }}</button>
+              <a
+                  :href="getFileUrl(file)"
+                  :download="file.file_name"
+                  class="text-primary bold"
+              >
+                {{ file.file_name }}
+              </a>
             </li>
           </ul>
         </div>
@@ -150,29 +156,12 @@ import {UploadedFile} from "@/types/file-types";
 const filesStore = useFilesStore();
 const { files } = storeToRefs(filesStore);
 
-async function downloadFile(file: UploadedFile) {
+function getFileUrl(file: UploadedFile): string {
   const baseUrl = api.defaults.baseURL;
-  const url = new URL(file.file, baseUrl);
-  const res = await fetch(url.toString(), {
-    method: "GET",
-  });
-
-  if (!res.ok) {
-    throw new Error(`Download failed: ${res.status} ${res.statusText}`);
-  }
-
-  const blob = await res.blob();
-
-  const objectUrl = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = objectUrl;
-  a.download = file.file_name;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-
-  URL.revokeObjectURL(objectUrl);
+  const serverFileNameWithExtension = file.file.split("/").reverse()[0];
+  const serverFileNameWithoutExtension = serverFileNameWithExtension.split(".")[0];
+  const path = `/files/${serverFileNameWithoutExtension}/${file.file_name}`
+  return new window.URL(path, baseUrl).toString();
 }
 </script>
 
