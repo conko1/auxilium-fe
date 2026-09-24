@@ -1,50 +1,45 @@
 <template>
-  <div
-    class="card-accordion container p-4 py-lg-5"
-    id="faq-section"
-    role="tablist"
-    aria-multiselectable="true"
-    data-animate="fadeIn"
-    data-animate-duration="0.4"
-  >
-    <div data-animate="fadeIn" data-animate-duration="0.2">
-      <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary" />
-      <h2 class="text-center text-uppercase font-weight-bold my-0">
-        Časté otázky a odpovede
-      </h2>
-      <hr class="mb-3 w-50 mx-auto" />
+  <section id="faq-section" class="au-section">
+    <div class="container">
+      <div class="row gy-5 gx-lg-5">
+        <div class="col-lg-4">
+          <SectionHeading eyebrow="Najčastejšie" title="Časté otázky a odpovede" />
+        </div>
+        <div class="col-lg-8">
+          <div class="accordion accordion-flush au-accordion" id="faqAccordion">
+            <div class="accordion-item" v-for="(faq, index) in faqs" :key="faq.id">
+              <h3 class="accordion-header">
+                <button
+                  class="accordion-button"
+                  :class="{ collapsed: index !== 0 }"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  :data-bs-target="'#faq' + faq.id"
+                  :aria-expanded="index === 0 ? 'true' : 'false'"
+                  :aria-controls="'faq' + faq.id"
+                >
+                  {{ faq.question }}
+                </button>
+              </h3>
+              <div
+                :id="'faq' + faq.id"
+                class="accordion-collapse collapse"
+                :class="{ show: index === 0 }"
+                data-bs-parent="#faqAccordion"
+              >
+                <div class="accordion-body" v-html="faq.answer"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="card" v-for="(faq, index) in faqs" :key="faq.id">
-      <h4
-        class="card-header d-flex justify-content-between align-items-center p-3 text-primary"
-        role="tab"
-        :id="'heading' + faq.id"
-        data-bs-toggle="collapse"
-        data-bs-parent="#accordion"
-        :data-bs-target="'#collapse' + faq.id"
-        :aria-expanded="index === 0 ? 'true' : 'false'"
-        :aria-controls="'collapse' + faq.id"
-        style="cursor: pointer;"
-      >
-        <span>{{ faq.question }}</span>
-        <i class="bi bi-app"></i>
-      </h4>
-
-      <div
-        :id="'collapse' + faq.id"
-        :class="['collapse', { show: index === 0 }]"
-        role="tabpanel"
-        :aria-labelledby="'heading' + faq.id"
-        data-bs-parent="#accordion"
-      >
-      <div class="card-body" v-html="faq.answer"></div>
-    </div>
-  </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
+import SectionHeading from "@/components/SectionHeading.vue";
+
 const faqs = [
   {
     id: 1,
@@ -89,9 +84,3 @@ const faqs = [
   }
 ]
 </script>
-
-<style scoped>
-.text-primary {
-  color: #4b6901 !important;
-}
-</style>

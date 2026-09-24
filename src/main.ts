@@ -9,8 +9,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import 'quill/dist/quill.snow.css'
 
 import '@/styles/auxiliumno.css'
-import '@/styles/theme-style.min.css';
-import '@/styles/colour-green.min.css';
 
 import {createPinia} from "pinia";
 

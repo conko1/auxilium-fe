@@ -1,166 +1,136 @@
 <template>
-  <div id="header">
-    <div data-toggle="sticky">
+  <header id="header" class="au-header">
+    <nav class="navbar navbar-expand-lg au-nav" aria-label="Hlavná navigácia">
+      <div class="container">
+        <router-link class="au-brand" :to="{ name: 'home' }" @click="onBrandClick">
+          <span class="au-brand__mark" aria-hidden="true">a</span>
+          <span class="au-brand__text">
+            <span class="au-brand__name">Auxilium</span>
+            <span class="au-brand__tag">služby seniorom</span>
+          </span>
+        </router-link>
 
-      <div class="header bg-logo">
-        <div class="header-inner container">
+        <button
+          class="navbar-toggler border-0 shadow-none px-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNav"
+          aria-controls="mainNav"
+          aria-expanded="false"
+          aria-label="Otvoriť menu"
+        >
+          <i class="bi bi-list fs-1"></i>
+        </button>
 
-          <div class="header-brand">
-            <router-link class="header-brand-text" :to="{name: 'home'}">
-              <img src="@/assets/header_logo.png">
-            </router-link>
-          </div>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav mx-lg-auto align-items-lg-center">
+            <li class="nav-item dropdown" v-for="category in visibleCategories" :key="category.id">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                :id="`dd-${category.id}`"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                @click.prevent
+              >{{ category.name }}</a>
+              <ul class="dropdown-menu" :aria-labelledby="`dd-${category.id}`">
+                <li v-for="content in categoryContents(category.id as number)" :key="content.id || content.href">
+                  <button class="dropdown-item" type="button" @click="go(content.href as string)">
+                    {{ content.link }}
+                  </button>
+                </li>
+              </ul>
+            </li>
 
-          <div class="header-block order-12 mt-3">
-            <div class="flex-column text-right d-none d-lg-flex mr-2">
-              <h1 class="my-0 mb-1 h5">
-                Auxilium, n.o.
-              </h1>
-              <h2 class="my-0 mb-1 h5">
-                Jozefa Martinčeka 108/50, 013 03 Varín
-              </h2>
-              <h6 class="my-0 mb-1">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                id="dd-vseobecne"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                @click.prevent
+              >Všeobecné</a>
+              <ul class="dropdown-menu" aria-labelledby="dd-vseobecne">
+                <li v-for="item in generalLinks" :key="item.id">
+                  <button class="dropdown-item" type="button" @click="go(item.id)">{{ item.label }}</button>
+                </li>
+              </ul>
+            </li>
+          </ul>
 
-                <a href="tel:00421415006029" class="text-primary"><i class="fa fa-phone-square fa-lg"></i> 041 / 500 60 29</a>
-              </h6>
-              <h6 class="my-0 mb-1">
-                <a href="mailto:dss.auxilium@gmail.com" class="text-primary"><i class="fa fa-envelope fa-lg"></i> dss.auxilium@gmail.com</a>
-              </h6>
+          <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+            <div class="au-admin-links d-flex align-items-center" v-if="logged">
+              <router-link :to="{ name: 'gallery' }" title="Galéria" @click="closeMenu"><i class="bi bi-file-earmark-image"></i></router-link>
+              <router-link :to="{ name: 'mail' }" title="Správy" @click="closeMenu"><i class="bi bi-envelope-paper"></i></router-link>
+              <router-link :to="{ name: 'cloud' }" title="Dokumenty" @click="closeMenu"><i class="bi bi-file-earmark-text"></i></router-link>
+              <router-link :to="{ name: 'settings' }" title="Nastavenia" @click="closeMenu"><i class="bi bi-gear"></i></router-link>
             </div>
-            <a href="#top" class="btn btn-link btn-icon header-btn float-right d-lg-none mt-5" data-toggle="jpanel-menu" data-target=".navbar-main" data-direction="right"> <i class="fa fa-bars fa-lg"></i> </a>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="navbar navbar-expand-md">
-        <div class="navbar-main bg-primary navbar-dark">
-          <div class="nav navbar-nav container pt-4 pb-4 d-flex justify-content-between">
-
-            <div class="d-flex flex-row">
-              <div class="dropdown me-4 align-content-center"
-                   v-for="category in categories"
-                   :key="category.id">
-                <template v-if="categoryContents(category.id).length">
-                  <a
-                    class="dropdown-toggle text-white text-decoration-none"
-                    href="#"
-                    role="button"
-                    :id="`dd-${category.id}`"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    {{ category.name }}
-                  </a>
-
-                  <ul class="dropdown-menu pos-absolute" :aria-labelledby="`dd-${category.id}`">
-                    <li v-for="content in categoryContents(category.id)" :key="content.id || content.href">
-                      <button class="dropdown-item" type="button" @click="scrollTo(content.href)">
-                        {{ content.link }}
-                      </button>
-                    </li>
-                  </ul>
-                </template>
-
-                <template v-else>
-                  <span class="text-white text-decoration-none">
-                    {{ category.name }}
-                  </span>
-                </template>
-              </div>
-
-              <div class="dropdown me-4 align-content-center">
-                  <a
-                    class="dropdown-toggle text-white text-decoration-none"
-                    href="#"
-                    role="button"
-                    :id="`dd-vseobecne`"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Všeobecné
-                  </a>
-
-                  <ul class="dropdown-menu pos-absolute" :aria-labelledby="`dd-vseobecne`">
-                    <li>
-                      <button class="dropdown-item" type="button" @click="scrollTo('gallery-section')">
-                        Galéria
-                      </button>
-                    </li>
-                    <li>
-                      <button class="dropdown-item" type="button" @click="scrollTo('faq-section')">
-                        Otázky
-                      </button>
-                    </li>
-                    <li>
-                      <button class="dropdown-item" type="button" @click="scrollTo('formular')">
-                        Napíšte nám
-                      </button>
-                    </li>
-                    <li>
-                      <button class="dropdown-item" type="button" @click="scrollTo('dokumenty')">
-                        Dokumenty
-                      </button>
-                    </li>
-                    <li>
-                      <button class="dropdown-item" type="button" @click="scrollTo('cennik-sluzieb')">
-                        Cenník
-                      </button>
-                    </li>
-                    <li>
-                      <button class="dropdown-item" type="button" @click="scrollTo('mapa')">
-                        Lokalita
-                      </button>
-                    </li>
-                    <li>
-                      <button class="dropdown-item" type="button" @click="scrollTo('telefony')">
-                        Kontakt
-                      </button>
-                    </li>
-                  </ul>
-              </div>
-            </div>
-
-            <div class="dropdown align-content-center cursor-pointer" v-if="logged">
-              <router-link class="text-lime me-2" :to="{name: 'gallery'}" data-toggle="scroll-link"><i class="bi bi-file-earmark-image text-white h4"></i></router-link>
-              <router-link class="text-lime me-2" :to="{name: 'mail'}" data-toggle="scroll-link"><i class="bi bi-envelope-paper text-white h4"></i></router-link>
-              <router-link class="text-lime me-2" :to="{name: 'cloud'}" data-toggle="scroll-link"><i class="bi bi-file-earmark-text text-white h4"></i></router-link>
-              <router-link class="text-lime" :to="{name: 'settings'}" data-toggle="scroll-link"><i class="bi bi-gear text-white h4"></i></router-link>
-            </div>
+            <a class="btn btn-primary" href="tel:+421415006029">
+              <i class="bi bi-telephone me-2"></i>041 / 500 60 29
+            </a>
           </div>
         </div>
       </div>
-
-    </div>
-  </div>
+    </nav>
+  </header>
 </template>
 
 <script setup lang="ts">
-import {useContentsStore} from "@/store/contents-store";
-import {storeToRefs} from "pinia";
-import {Content} from "@/types/content-types";
-import router from "@/router";
+import { computed } from "vue";
+import { storeToRefs } from "pinia";
+import { useContentsStore } from "@/store/contents-store";
+import { Content } from "@/types/content-types";
+import { scrollToId } from "@/utils/scroll";
 
 const store = useContentsStore();
 const { contents, categories, logged } = storeToRefs(store);
 
-function categoryContents(categoryId: number) : Content[] {
+const generalLinks = [
+  { id: "gallery-section", label: "Galéria" },
+  { id: "faq-section", label: "Otázky" },
+  { id: "formular", label: "Napíšte nám" },
+  { id: "dokumenty", label: "Dokumenty" },
+  { id: "cennik-sluzieb", label: "Cenník" },
+  { id: "mapa", label: "Lokalita" },
+  { id: "telefony", label: "Kontakt" },
+];
+
+function categoryContents(categoryId: number): Content[] {
   return contents.value.filter((c) => c.category === categoryId);
 }
 
-async function scrollTo(id: string) {
-  const currentPathName = router.currentRoute.value.name;
-  if (currentPathName !== "home") {
-    await router.push({name: "home"})
-  }
+// Only categories that actually contain something are worth showing in the nav.
+const visibleCategories = computed(() =>
+  categories.value.filter((c) => categoryContents(c.id as number).length)
+);
 
-  const el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: "smooth" });
+/**
+ * Collapses the mobile menu (uses Bootstrap's own toggler, so no extra JS API needed).
+ * Returns true when a menu was actually open.
+ */
+function closeMenu(): boolean {
+  const nav = document.getElementById("mainNav");
+  if (nav?.classList.contains("show")) {
+    document.querySelector<HTMLElement>(".navbar-toggler")?.click();
+    return true;
   }
+  return false;
+}
+
+async function go(id: string) {
+  // The sticky header shrinks while the menu collapses; scrolling before that
+  // finishes would land in the wrong place, so wait for the animation (~350 ms).
+  if (closeMenu()) {
+    await new Promise((resolve) => setTimeout(resolve, 400));
+  }
+  await scrollToId(id);
+}
+
+function onBrandClick() {
+  closeMenu();
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 </script>
-
-<style scoped>
-
-</style>

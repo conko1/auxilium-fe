@@ -1,38 +1,46 @@
 <template>
-  <div :id="contentData.href" class="py-3 pt-lg-6" :class="{'bg-light': odd}">
+  <section :id="contentData.href" class="au-section" :class="{'au-section--alt': odd}">
     <div class="container">
-      <div class="d-flex">
-        <div data-animate="fadeIn" data-animate-duration="0.8" class="w-100">
-          <hr class="hr-lg mt-0 mb-3 w-10 mx-auto hr-primary" />
-          <input v-if="editMode" v-model="contentData.title"  type="text" class="form-control w-75" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-          <h2 v-else class="text-center text-uppercase font-weight-bold my-0">
-            {{ contentData.title }}
-          </h2>
-          <hr class="mb-3 w-50 mx-auto" />
-        </div>
-        <div v-if="logged">
-          <div v-if="!editMode" class="cursor-pointer" @click="editMode = true">
-            <i class="bi bi-pencil-square h4 ms-2"/>
+      <div class="d-flex align-items-start justify-content-between gap-3">
+        <div class="flex-grow-1">
+          <div v-if="editMode" class="au-section__head">
+            <input
+              v-model="contentData.title"
+              type="text"
+              class="form-control form-control-lg"
+              aria-label="Názov sekcie"
+              placeholder="Názov sekcie"
+            >
           </div>
-          <div v-else class="d-flex">
-            <i class="bi bi-x-square h4 me-2 cursor-pointer" @click="discardChangesToContentBody"></i>
-            <i class="bi bi-save h4 cursor-pointer" @click="saveChangesToContentBody"/>
+          <SectionHeading v-else :title="contentData.title" />
+        </div>
+
+        <div v-if="logged" class="pt-2 flex-shrink-0">
+          <div v-if="!editMode" class="cursor-pointer" title="Upraviť" @click="editMode = true">
+            <i class="bi bi-pencil-square h4"/>
+          </div>
+          <div v-else class="d-flex gap-3">
+            <i class="bi bi-x-square h4 cursor-pointer" title="Zahodiť zmeny" @click="discardChangesToContentBody"></i>
+            <i class="bi bi-save h4 cursor-pointer" title="Uložiť" @click="saveChangesToContentBody"/>
           </div>
         </div>
       </div>
+
       <div class="user-select-none mb-2 d-flex justify-content-end" v-if="editMode">
-          <div v-if="!dualMode" class="cursor-pointer" @click="setDualMode">
-            <i class="bi bi-layout-split h4"></i>
-          </div>
-          <div v-else class="cursor-pointer" @click="setSingleMode(true)">
-            <i class="bi bi-square h4"></i>
-          </div>
+        <div v-if="!dualMode" class="cursor-pointer" title="Dva stĺpce" @click="setDualMode">
+          <i class="bi bi-layout-split h4"></i>
+        </div>
+        <div v-else class="cursor-pointer" title="Jeden stĺpec" @click="setSingleMode(true)">
+          <i class="bi bi-square h4"></i>
+        </div>
       </div>
-      <div v-if="!editMode" class="row ql-editor">
-        <div v-if="!dualMode" v-html="contentBodyLeft" class="col-md-12"></div>
-        <div v-else class="row">
-          <div v-html="contentBodyLeft" class="col-md-6"></div>
-          <div v-html="contentBodyRight" class="col-md-6"></div>
+
+      <!-- .ql-editor is required so Quill's list/indent/align styles keep working -->
+      <div v-if="!editMode" class="ql-editor au-prose">
+        <div v-if="!dualMode" v-html="contentBodyLeft" class="au-prose__col"></div>
+        <div v-else class="row g-4 g-lg-5">
+          <div v-html="contentBodyLeft" class="col-md-6 au-prose__col"></div>
+          <div v-html="contentBodyRight" class="col-md-6 au-prose__col"></div>
         </div>
       </div>
       <div v-else :class="{'two-col': dualMode}">
@@ -40,11 +48,12 @@
         <quill-editor v-if="dualMode" v-model="contentBodyRight" :koro="2" />
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
 import QuillEditor from "@/components/quill/QuillEditor.vue";
+import SectionHeading from "@/components/SectionHeading.vue";
 import {Content} from "@/types/content-types";
 import {onMounted, ref} from "vue";
 import {useContentsStore} from "@/store/contents-store";
@@ -168,6 +177,10 @@ function joinColumns(left: string, right: string, withMarker: boolean, marker: s
 </script>
 
 <style scoped lang="scss">
+.au-prose__col :deep(h4) {
+  margin-top: 0 !important;
+}
+
 .two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
