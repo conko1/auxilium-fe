@@ -4,9 +4,11 @@
       <div class="row g-4 g-lg-5">
         <div class="col-lg-3">
           <div class="au-brand mb-3">
-            <span class="au-brand__mark" aria-hidden="true">a</span>
+            <span class="au-brand__mark" aria-hidden="true">
+              <img src="@/assets/header_logo_small.png">
+            </span>
             <span class="au-brand__text">
-              <span class="au-brand__name">auxilium</span>
+              <span class="au-brand__name">Auxilium</span>
               <span class="au-brand__tag">služby seniorom</span>
             </span>
           </div>
@@ -29,7 +31,7 @@
           <ul>
             <li><i class="bi bi-telephone me-2"></i><a href="tel:+421415006028">041 / 500 60 28</a></li>
             <li><i class="bi bi-telephone me-2"></i><a href="tel:+421415006029">041 / 500 60 29</a></li>
-            <li><i class="bi bi-envelope me-2"></i><a href="mailto:dss.auxilium@gmail.com">dss.auxilium@gmail.com</a></li>
+            <li><i class="bi bi-envelope me-2"></i><a href="mailto:zpsauxilium@gmail.com">zpsauxilium@gmail.com</a></li>
             <li><i class="bi bi-envelope me-2"></i><a href="mailto:penzionvarin@gmail.com">penzionvarin@gmail.com</a></li>
           </ul>
         </div>
@@ -39,7 +41,7 @@
           <ul>
             <li>IČO: 57 603 189</li>
             <li>Banka: Slovenská sporiteľňa, a.s.</li>
-            <li>IBAN: SK44 0900 0000 0050 3671 0437</li>
+            <li>IBAN: SK21 0900 0000 0052 4999 8040</li>
           </ul>
         </div>
       </div>

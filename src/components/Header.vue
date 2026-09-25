@@ -3,9 +3,11 @@
     <nav class="navbar navbar-expand-lg au-nav" aria-label="Hlavná navigácia">
       <div class="container">
         <router-link class="au-brand" :to="{ name: 'home' }" @click="onBrandClick">
-          <span class="au-brand__mark" aria-hidden="true">a</span>
+          <span class="au-brand__mark" aria-hidden="true">
+              <img src="@/assets/header_logo_small.png">
+          </span>
           <span class="au-brand__text">
-            <span class="au-brand__name">Auxilium</span>
+            <span class="au-brand__name">ZPS Auxilium</span>
             <span class="au-brand__tag">služby seniorom</span>
           </span>
         </router-link>
@@ -69,7 +71,7 @@
               <router-link :to="{ name: 'settings' }" title="Nastavenia" @click="closeMenu"><i class="bi bi-gear"></i></router-link>
             </div>
             <a class="btn btn-primary" href="tel:+421415006029">
-              <i class="bi bi-telephone me-2"></i>041 / 500 60 29
+              <i class="bi bi-telephone me-2"></i>0918 666 410
             </a>
           </div>
         </div>

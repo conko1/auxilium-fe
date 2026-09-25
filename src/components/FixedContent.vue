@@ -36,8 +36,8 @@
                 budú poskytnuté telefonicky alebo e-mailom.
               </p>
               <div class="d-flex flex-wrap gap-3 mt-4">
-                <a class="btn btn-primary" href="tel:+421915729127"><i class="bi bi-telephone me-2"></i>0915 729 127</a>
-                <a class="btn btn-outline-primary" href="mailto:dss.socauxilium@gmail.com"><i class="bi bi-envelope me-2"></i>dss.socauxilium@gmail.com</a>
+                <a class="btn btn-primary" href="tel:+421918666410"><i class="bi bi-telephone me-2"></i>0918 666 410</a>
+                <a class="btn btn-outline-primary" href="mailto:zpsauxilium@gmail.com"><i class="bi bi-envelope me-2"></i>zpsauxilium@gmail.com</a>
               </div>
             </div>
           </div>
@@ -91,9 +91,8 @@
               <div class="au-icon"><i class="bi bi-person-badge"></i></div>
               <h3>Riaditeľ</h3>
               <ul>
-                <li><a href="mailto:dss.auxilium@gmail.com">dpsauxilium@gmail.com</a></li>
+                <li><a href="mailto:zpsauxilium@gmail.com">zpsauxilium@gmail.com</a></li>
                 <li>mobil: <a href="tel:+421905570772">0918 666 410</a></li>
-                <li>zástupca: <a href="tel:+421907803863">0907 803 863</a></li>
               </ul>
             </article>
           </div>
@@ -104,7 +103,7 @@
               <ul>
                 <li><a href="mailto:dss.socauxilium@gmail.com">dss.socauxilium@gmail.com</a></li>
                 <li>mobil: <a href="tel:+421915729127">0915 729 127</a></li>
-                <li>kancelária: <a href="tel:+421415006029">041 / 500 60 29</a></li>
+                <li>kancelária: <a href="tel:+421415006029">0918 666 410</a></li>
               </ul>
             </article>
           </div>

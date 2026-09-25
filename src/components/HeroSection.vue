@@ -17,7 +17,7 @@
       </p>
       <div class="d-flex flex-wrap gap-3">
         <a class="btn btn-light btn-lg" href="#formular" @click.prevent="scrollToId('formular')">Kontaktujte nás</a>
-        <a class="btn btn-outline-light btn-lg" href="#o-nas" @click.prevent="scrollToId('o-nas')">Spoznajte Auxilium</a>
+        <a class="btn btn-outline-light btn-lg" href="#bf011f60-a739-4606-b153-867c0a8110d9" @click.prevent="scrollToId('bf011f60-a739-4606-b153-867c0a8110d9')">Spoznajte Auxilium</a>
       </div>
     </div>
 
@@ -55,8 +55,6 @@
         </div>
       </div>
     </div>
-
-    <a class="au-hero__scroll" href="#o-nas" @click.prevent="scrollToId('o-nas')">Scrollujte nižšie</a>
   </section>
 </template>
 
