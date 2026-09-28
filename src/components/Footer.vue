@@ -8,7 +8,7 @@
               <img src="@/assets/header_logo_small.png">
             </span>
             <span class="au-brand__text">
-              <span class="au-brand__name">Auxilium</span>
+              <span class="au-brand__name">ZPS Auxilium</span>
               <span class="au-brand__tag">služby seniorom</span>
             </span>
           </div>
